@@ -1,9 +1,3 @@
-# from DbPython import (
-#     BridgeCalculator,
-#     Material, Section, Bar,
-#     BeamSec, BeamInfo,
-#     Eleprop, StageInfo, ControlInfo
-# )
 from DbPython import *
 from typing import List, Tuple
 
