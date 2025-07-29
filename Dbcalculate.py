@@ -269,3 +269,72 @@ print("计算是否成功：", ok)
 # 10. 导出结果
 calc.show_result('D:/test_output/res')
 calc.show_movld_result('D:/test_output/mov_res')
+
+# 数据库查询示例代码
+
+# import sqlite3
+# import pandas as pd
+
+# # 创建数据库并连接
+# db_path = "D:/test/fea_result.db"
+# conn = sqlite3.connect(db_path)
+# cursor = conn.cursor()
+
+# # 创建表结构（节点位移结果）
+# create_table_sql = """
+# CREATE TABLE IF NOT EXISTS node_displacements (
+#     element_id INTEGER,
+#     node_id INTEGER,
+#     dx REAL,
+#     dy REAL,
+#     dz REAL,
+#     rx REAL,
+#     ry REAL,
+#     rz REAL
+# )
+# """
+# conn.execute(create_table_sql)
+
+# # 文件编码出错，尝试使用 gbk 编码重新读取
+# txt_path = 'D:/test/BrgUserGeRstBrgUserGeRst_Gravity.txt'
+# with open(txt_path, 'r', encoding='gbk', errors='ignore') as f:
+#     lines = f.readlines()
+
+# # 重新提取有效数据
+# data = []
+# for line in lines:
+#     parts = line.strip().split()
+#     if len(parts) == 8 and parts[0].isdigit():
+#         try:
+#             row = (
+#                 int(parts[0]),  # element_id
+#                 int(parts[1]),  # node_id
+#                 float(parts[2]),
+#                 float(parts[3]),
+#                 float(parts[4]),
+#                 float(parts[5]),
+#                 float(parts[6]),
+#                 float(parts[7])
+#             )
+#             data.append(row)
+#         except:
+#             continue 
+
+
+# # 重新插入数据
+# conn = sqlite3.connect(db_path)
+# conn.execute("DELETE FROM node_displacements")
+# conn.executemany("INSERT INTO node_displacements VALUES (?, ?, ?, ?, ?, ?, ?, ?)", data)
+# conn.commit()
+
+# # 查询示例：查询 node_id=48 的 dx, dy, dz
+# query = """
+# SELECT ElementID, NodeID, DZ
+# FROM node_displacement
+# WHERE NodeID = 48
+# """
+# query_result = pd.read_sql_query(query, conn)
+# excel_path = "/mnt/data/node_displacement_result.xlsx"
+# query_result.to_excel(excel_path, index=False)
+
+# conn.close()
