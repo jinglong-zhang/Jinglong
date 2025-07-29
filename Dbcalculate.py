@@ -1,5 +1,6 @@
 from DbPython import *
 from typing import List, Tuple
+import numpy as np
 
 def make_nodeinfo(
     node_id: int,
